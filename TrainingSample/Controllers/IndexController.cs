@@ -46,12 +46,14 @@ namespace TrainingSample.Controllers
             return RedirectToAction("Index");
         }
 
-        //public ActionResult EdituS(UserDetails delete)
-        //{
+       
+        [HttpPost]
+        public ActionResult EdituS(ResultViewModel us)
+        {
 
-        //    userDetails.EditUserDetails(delete);
-        //    return RedirectToAction("Index");
-        //}
+            userDetails.EditUserDetails(us);
+            return RedirectToAction("Index");
+        }
         public ActionResult DeleteuS(int id)
         {
 

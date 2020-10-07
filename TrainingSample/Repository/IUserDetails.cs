@@ -13,9 +13,9 @@ namespace TrainingSample.Repository
        
         void AddUserDetails(UserDetails insert);
         void DeleteUserDetails(int id);
+        void EditUserDetails(ResultViewModel us);
 
-
-       // IEnumerable<UserDetails> EditUserDetails(UserDetails delete);
+        // IEnumerable<UserDetails> EditUserDetails(UserDetails delete);
 
     }
 }

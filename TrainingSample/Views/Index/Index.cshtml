@@ -53,8 +53,12 @@
                         <td>
                             @*@Html.ActionLink("Edit", "Edit", new { id = v.UserId }) |
 
-                                @Html.ActionLink("Delete", "Delete", new { id = v.UserId })*@
-                            <a href="javascript:;" data-toggle="modal" data-target="#editUser" value="Edit User" class="edit-cancel text-uppercase" onclick="EditUser('@v.UserId');">Edit</a>
+        @Html.ActionLink("Delete", "Delete", new { id = v.UserId })*@
+                            @*<a href="javascript:;" data-toggle="modal" data-target="#editUser" value="Edit User" class="edit-cancel text-uppercase" onclick="EditUser('@v.UserId,@v.FullName');">Edit</a>*@
+                            <a href="javascript:;" data-toggle="modal" data-target="#editUser" value="Edit User" class="edit-cancel text-uppercase" onclick="EditUser('@v.UserId','@v.FullName','@v.UserEmail','@v.CarLicense');">Edit</a>
+                            @*<button type="button" class="btn btn-success" data-toggle="modal" data-target="#editUser" onclick="EditUser('@v.FullName');">
+            Edit
+        </button>*@
                             @Html.ActionLink("Delete", "DeleteuS", new { id = v.UserId }, new { @class = "fa fa-close cancel no-margin", @onclick = "return confirm('Are you sure you wish to delete this record?');" })
                         </td>
                     </tr>
@@ -103,7 +107,7 @@
                                     <span id="longval" class="field-validation-error"></span>
                                 </div>
                                 <div>
-                                    <p id="pImageBase64"></p>
+                                    <p class="hidden" id="pImageBase64"></p>
                                 </div>
                                 <div>
                                     <img id="image" height="150">
@@ -123,7 +127,7 @@
     </div>
 
 
-    @*<div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -132,6 +136,11 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Id</label>
+                                <input class="form-control" id="gid" name="gid" type="text" />
+                                <span id="idval" class="field-validation-error"></span>
+                            </div>
                             <div class="form-group">
                                 <label>Name</label>
                                 <input class="form-control" id="AName" name="AName" type="text" />
@@ -145,13 +154,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Address</label>
-                                <input class="form-control" id="ALong" name="ALong" type="text" />
-                                <span id="longval" class="field-validation-error"></span>
-                            </div>
-                            <div class="form-group">
-                                <label>ProfilePic</label>
-                                <input class="form-control" id="image" type="file" name="ImageFile" required />
+                                <label>CarLicense</label>
+                                <input class="form-control" id="ACar" name="ACar" type="text" />
                                 <span id="longval" class="field-validation-error"></span>
                             </div>
                             <input type="hidden" id="action" name="action" />
@@ -160,11 +164,11 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" onclick="return InsertUser();">Submit</button>
+                    <button type="submit" class="btn btn-primary" onclick="return EditUsers();">Submit</button>
                 </div>
             </div>
         </div>
-    </div>*@
+    </div>
 
 </body>
 </html>
@@ -173,3 +177,5 @@
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script src="~/Scripts/bootstrap.js"></script>
 <script src="~/Scripts/UsersScripts/Adduser.js"></script>
+<script src="~/Scripts/UsersScripts/Edit.js"></script>
+

@@ -5,7 +5,7 @@
     var Address = $("#ALong").val();
     var image = $("#image").val();
     var imagenBase64 = $("#pImageBase64").html();
-    /// get var values
+   
 
     //var url = "@Url.Action("InsertuS", "Index")"
     $.ajax({
@@ -61,33 +61,43 @@ function encodeImagetoBase64(element) {
 
 
 
-function AjaxPost(formdata)
-{
-    var ajaxConfig = {
-        type: "POST",
-        url: "/Index/InsertuS",
-        data: new FormData(formData),
-        success: function (result) {
-            alert(result);
-           // window.location.href = "/Index/AddNew";
-        }
-    }
-    if ($(formData).attr('enctype') == "multipart/form-data") {
-        ajaxConfig["contentType"] = false;
-        ajaxConfig["processData"] = false;
-    }
-    $.ajax(ajaxConfig);
-    return false;
-
-
-}
-
-
-
-
-
-//function EditUser(id) {
+//function EditUser(FullName) {
+   
 //    var v = {
+        
+//        userName: $('#AName').val(),
+//        Email: $('#ALat').val(),
+//        Address: $('#ALong').val()
+     
+//    };
+//    $.ajax({
+//        url: "/Imdex/EdituS",
+//        data: JSON.stringify(v),
+//        type: "POST",
+//        contentType: "application/json;charset=utf-8",
+//        dataType: "json",
+//        success: function (result) {
+//            loadData();
+//            $('#myModal').modal('hide');
+        
+//            $('#AName').val("");
+//            $('#ALat').val("");
+//            $('#ALong').val("");
+            
+//        },
+//        error: function (errormessage) {
+//            alert(errormessage.responseText);
+//        }
+//    });
+//}
+
+
+
+
+
+//function EditUser(_id) {
+//    var v = {
+        
 //        userName = $("#AName").val(),
 //        Email = $("#ALat").val(),
 //        Address = $("#ALong").val(),

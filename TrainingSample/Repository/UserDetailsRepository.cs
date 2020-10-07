@@ -141,32 +141,33 @@ namespace TrainingSample.Repository
             }
         }
 
+        public void EditUserDetails(ResultViewModel insert)
+        {
+            using (var dbContext = new TraineeEntities())
+            {
+                var dtls = dbContext.UserDetails.Where(x => x.UserId == insert.UserId).FirstOrDefault();
 
-        //public IEnumerable<UserDetails> EditUserDetails(int? id)
-        //{
-        //    using (var dbContext = new TraineeEntities())
-        //    {
 
-        //        var viewModel = (from a in dbContext.UserDetails
+                dtls.FullName = insert.FullName;
+                dtls.UserEmail = insert.UserEmail;
+                dtls.CivilIdNumber = insert.CivilIdNumber;
 
-        //                         where a.UserId == id
-        //                         select new Entities.UserDetails
-        //                         {
-        //                             // UserId = a.UserId,
-        //                             FullName = a.FullName,
-        //                             UserEmail = a.UserEmail,
-        //                             Address = a.Address,
-        //                             ProfilePic = a.ProfilePic
-        //                             //CivilIdNumber = a.CivilIdNumber
-        //                         }).FirstOrDefault();
-        //        var cars = dbContext.CarDetails.Where(x => x.UserId == id).Select(y => y.CarLicense).ToList();
+               // var cars = dbContext.CarDetails.Where(x => x.UserId == insert.UserId).Select(y => y.CarLicense).ToList();
+               
+                dbContext.Entry(dtls).State = EntityState.Modified;
+                //foreach(var item in cars)
+                //{
+                //    dbContext.Entry(item).State = EntityState.Modified;
+                //}
+                ////dbContext.Entry(cars).State = EntityState.Modified;
+                //insert.CarLicense.AddRange(cars);
 
-        //         viewModel.CarLicense.AddRange(cars);
+                dbContext.SaveChanges();
 
-        //        return viewModel;
-        //    }
-        //}
+            }
+        }
     }
-}
+    }
+
         
     
