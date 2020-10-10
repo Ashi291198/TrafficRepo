@@ -45,6 +45,7 @@ namespace TrainingSample.Repository
                     result.Add(data);
 
                 }
+                result = result.Where(x => x.CarLicense != "").ToList();
 
                 return result;
 
@@ -141,31 +142,66 @@ namespace TrainingSample.Repository
             }
         }
 
+        public ResultViewModel GetEditDetails(int Id)
+        {
+            using (var dbContext = new TraineeEntities())
+            {
+                var viewModel = dbContext.UserDetails.Where(x => x.UserId == Id).FirstOrDefault();
+                var cardetails = dbContext.CarDetails.Where(x => x.UserId == Id).Select(y => new CarDetailsInfo
+                {
+                    Id = y.Id,
+                    CarLicense = y.CarLicense
+                }).ToList();
+
+                var userDetails = new ResultViewModel
+                {
+                    UserId = viewModel.UserId,
+                    
+                    FullName = viewModel.FullName,
+                    UserEmail = viewModel.UserEmail
+                   // CivilIdNumber = viewModel.CivilIdNumber
+                };
+
+
+                userDetails.CarDetails.AddRange(cardetails);
+
+
+                return userDetails;
+
+            }
+
+
+        }
+
+
+       
         public void EditUserDetails(ResultViewModel insert)
         {
             using (var dbContext = new TraineeEntities())
             {
                 var dtls = dbContext.UserDetails.Where(x => x.UserId == insert.UserId).FirstOrDefault();
-
+                var viewModel1 = dbContext.CarDetails.Where(x => x.UserId == insert.UserId).ToList();
 
                 dtls.FullName = insert.FullName;
                 dtls.UserEmail = insert.UserEmail;
-                dtls.CivilIdNumber = insert.CivilIdNumber;
-
-               // var cars = dbContext.CarDetails.Where(x => x.UserId == insert.UserId).Select(y => y.CarLicense).ToList();
-               
                 dbContext.Entry(dtls).State = EntityState.Modified;
-                //foreach(var item in cars)
-                //{
-                //    dbContext.Entry(item).State = EntityState.Modified;
-                //}
-                ////dbContext.Entry(cars).State = EntityState.Modified;
-                //insert.CarLicense.AddRange(cars);
+               
+                foreach (var car in insert.CarDetails)
+                {
+                    var userCar = viewModel1.Where(x => x.Id == car.Id).FirstOrDefault();
+
+                    userCar.CarLicense = car.CarLicense;
+
+                    dbContext.Entry(userCar).State = EntityState.Modified;
+                }
 
                 dbContext.SaveChanges();
 
             }
         }
+
+
+
     }
     }
 

@@ -51,15 +51,9 @@
                         <td>@v.CivilIdNumber</td>
                         <td>@v.CarLicense.TrimStart(',')</td>
                         <td>
-                            @*@Html.ActionLink("Edit", "Edit", new { id = v.UserId }) |
-
-        @Html.ActionLink("Delete", "Delete", new { id = v.UserId })*@
-                            @*<a href="javascript:;" data-toggle="modal" data-target="#editUser" value="Edit User" class="edit-cancel text-uppercase" onclick="EditUser('@v.UserId,@v.FullName');">Edit</a>*@
-                            <a href="javascript:;" data-toggle="modal" data-target="#editUser" value="Edit User" class="edit-cancel text-uppercase" onclick="EditUser('@v.UserId','@v.FullName','@v.UserEmail','@v.CarLicense');">Edit</a>
-                            @*<button type="button" class="btn btn-success" data-toggle="modal" data-target="#editUser" onclick="EditUser('@v.FullName');">
-            Edit
-        </button>*@
-                            @Html.ActionLink("Delete", "DeleteuS", new { id = v.UserId }, new { @class = "fa fa-close cancel no-margin", @onclick = "return confirm('Are you sure you wish to delete this record?');" })
+ <a href="javascript:;" data-toggle="modal" data-target="#editUser" value="Edit User" class="edit-cancel text-uppercase" onclick="return EditUser(@v.UserId)">Edit</a>
+                           
+ @Html.ActionLink("Delete", "DeleteuS", new { id = v.UserId }, new { @class = "fa fa-close cancel no-margin", @onclick = "return confirm('Are you sure you wish to delete this record?');" })
                         </td>
                     </tr>
                 }
@@ -86,19 +80,19 @@
 
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input class="form-control" id="AName" name="AName" type="text" />
+                                    <input class="form-control" id="AName1" name="AName" type="text" />
                                     <span id="nameval" class="field-validation-error"></span>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input class="form-control" id="ALat" name="ALat" type="text" />
+                                    <input class="form-control" id="ALat1" name="ALat" type="text" />
                                     <span id="latval" class="field-validation-error"></span>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Address</label>
-                                    <input class="form-control" id="ALong" name="ALong" type="text" />
+                                    <input class="form-control" id="ALong1" name="ALong" type="text" />
                                     <span id="longval" class="field-validation-error"></span>
                                 </div>
                                 <div class="form-group">
@@ -153,10 +147,10 @@
                                 <span id="latval" class="field-validation-error"></span>
                             </div>
 
-                            <div class="form-group">
-                                <label>CarLicense</label>
+                            <div class="form-group" id="CarL">
+                                @*<label>CarLicense</label>
                                 <input class="form-control" id="ACar" name="ACar" type="text" />
-                                <span id="longval" class="field-validation-error"></span>
+                                <span id="longval" class="field-validation-error"></span>*@
                             </div>
                             <input type="hidden" id="action" name="action" />
                         </div>
@@ -164,7 +158,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" onclick="return EditUsers();">Submit</button>
+                    <button type="submit" class="btn btn-primary"  onclick="return EditUsers();">Submit</button>
                 </div>
             </div>
         </div>

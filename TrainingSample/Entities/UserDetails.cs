@@ -48,7 +48,7 @@ namespace TrainingSample.Entities
         public List<CarDetails> CarDetails { get; set; }
         public string CarLicense { get;  set; }
     
-    }
+    } 
     public class CarDetails
     {
         public int Id { get; set; }

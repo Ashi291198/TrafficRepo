@@ -18,7 +18,8 @@ namespace TrainingSample.Controllers
         public ActionResult Index(int page = 1, int pageSize = 10)
         {
             var udetails = userDetails.GetUserDetails();
-           PagedList<UserDetails> model = new PagedList<UserDetails>(udetails, page, pageSize);
+           
+            PagedList<UserDetails> model = new PagedList<UserDetails>(udetails, page, pageSize);
            return View(model);
            // return View(udetails);
         }
@@ -46,11 +47,18 @@ namespace TrainingSample.Controllers
             return RedirectToAction("Index");
         }
 
-       
+        [HttpGet]
+        public ActionResult EdituS(int Id)
+        {
+           var v= userDetails.GetEditDetails(Id);
+
+            // return View(v);
+            return Json(new { UserId = v.UserId, FullName = v.FullName, UserEmail =v.UserEmail,  CarDetails = v.CarDetails }, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public ActionResult EdituS(ResultViewModel us)
         {
-
             userDetails.EditUserDetails(us);
             return RedirectToAction("Index");
         }

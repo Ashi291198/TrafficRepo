@@ -13,6 +13,7 @@ namespace TrainingSample.Repository
        
         void AddUserDetails(UserDetails insert);
         void DeleteUserDetails(int id);
+        ResultViewModel GetEditDetails(int id);
         void EditUserDetails(ResultViewModel us);
 
         // IEnumerable<UserDetails> EditUserDetails(UserDetails delete);

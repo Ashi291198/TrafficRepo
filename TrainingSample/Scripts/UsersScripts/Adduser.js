@@ -1,8 +1,8 @@
 ﻿function InsertUser() {
     debugger;
-    var userName = $("#AName").val();
-    var Email = $("#ALat").val();
-    var Address = $("#ALong").val();
+    var userName = $("#AName1").val();
+    var Email = $("#ALat1").val();
+    var Address = $("#ALong1").val();
     var image = $("#image").val();
     var imagenBase64 = $("#pImageBase64").html();
    
@@ -22,9 +22,10 @@
         contentType: 'application/json',
         async: false,
         success: function (data) {
-            $("#addUser").hide();
+          $("#addUser").hide();
             $("#addUser").addClass('hide');
         }
+        
 
     });
 }
