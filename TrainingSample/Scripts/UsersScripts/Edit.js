@@ -119,12 +119,13 @@ car1.push({
             }),
             dataType: 'json',
             contentType: 'application/json',
-            async: false,
+            async:true,
             success: function (data) {
 
-
-                $("#editUser").hide();
-                $("#editUser").addClass('hide');
+                $('#editUser').modal('hide');
+                //$("#editUser").hide();
+                //$("#editUser").addClass('hide');
+              
                
 
             }

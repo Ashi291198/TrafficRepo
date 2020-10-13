@@ -12,7 +12,8 @@ namespace TrainingSample.Repository
         IEnumerable<UserDetails> GetUserDetails();
        
         void AddUserDetails(UserDetails insert);
-        void DeleteUserDetails(int id);
+        void DeleteUserDetails(int? id);
+        
         ResultViewModel GetEditDetails(int id);
         void EditUserDetails(ResultViewModel us);
 

@@ -1,11 +1,9 @@
-﻿@*@model IEnumerable<TrainingSample.Entities.UserDetails>*@
-@model PagedList.IPagedList<TrainingSample.Entities.UserDetails>
-@using PagedList.Mvc;
+﻿
+
+
 @{
-    ViewBag.Title = "Index";
     Layout = null;
 }
-
 
 <!DOCTYPE html>
 
@@ -13,104 +11,94 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
-    <link href="~/Content/bootstrap.css" rel="stylesheet" />
-    @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-        crossorigin="anonymous">*@
-    @*<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>*@
+    @*<link href="~/Content/bootstrap.css" rel="stylesheet" />*@
+   
+    
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/dataTables.bootstrap4.css" rel="stylesheet" />
+    @*<script src="~/Scripts/jquery-3.5.1.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+
+        <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+        <script src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
+        <script src="~/Scripts/bootstrap.js"></script>*@
+
+
 
 </head>
 <body>
-    <div class="container" style="margin-top: 20px;">
-        <h3>User Details</h3>
-        
+
+
+    <div class="container py-4">
+        <h4 class="text-center text-uppercase">Details</h4>
+
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUser">
             Add User
         </button>
-        &nbsp;
+        
         <br/>
-
-        <div class="row">
-            <table border="1" class="table table-bordered">
+        <br/>
+        <div id="dataTable_wrapper"></div>
+        <table id="dataTable" class="table table-bordered table-striped">
+            <thead>
                 <tr>
                     <th>UserId</th>
                     <th>FullName</th>
                     <th>UserEmail</th>
-                    <th>CivilIdNumber</th>
-                    <th>CarLicence</th>
+                    <th>Address</th>
+                    <th>Carlicense</th>
+                    <th></th>
                     <th></th>
                 </tr>
-                @foreach (var v in Model)
-                {
-                    <tr>
-                        <td>@v.UserId</td>
-                        <td>@v.FullName</td>
-                        <td>@v.UserEmail</td>
-                        <td>@v.CivilIdNumber</td>
-                        <td>@v.CarLicense.TrimStart(',')</td>
-                        <td>
- <a href="javascript:;" data-toggle="modal" data-target="#editUser" value="Edit User" class="edit-cancel text-uppercase" onclick="return EditUser(@v.UserId)">Edit</a>
-                           
- @Html.ActionLink("Delete", "DeleteuS", new { id = v.UserId }, new { @class = "fa fa-close cancel no-margin", @onclick = "return confirm('Are you sure you wish to delete this record?');" })
-                        </td>
-                    </tr>
-                }
-            </table>
-        </div>
-        <br />
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }))
-        Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount from UserDetail
+            </thead>
+        </table>
     </div>
 
-   
-
-    <!-- Modal -->
     <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add/Edit User Details</h4>
+                    <h4 class="modal-title">Add User Details</h4>
                 </div>
-                <form id="Add" method="post" enctype="multipart/form-data" onsubmit="return AjaxPost(this)">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
 
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    <input class="form-control" id="AName1" name="AName" type="text" />
-                                    <span id="nameval" class="field-validation-error"></span>
-                                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
 
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input class="form-control" id="ALat1" name="ALat" type="text" />
-                                    <span id="latval" class="field-validation-error"></span>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Address</label>
-                                    <input class="form-control" id="ALong1" name="ALong" type="text" />
-                                    <span id="longval" class="field-validation-error"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label>ProfilePic</label>
-                                    <input class="form-control" id="image" type="file" name="ImageFile" onchange="encodeImagetoBase64(this)" required />
-                                    <span id="longval" class="field-validation-error"></span>
-                                </div>
-                                <div>
-                                    <p class="hidden" id="pImageBase64"></p>
-                                </div>
-                                <div>
-                                    <img id="image" height="150">
-                                </div>
-                                <input type="hidden" id="action" name="action" />
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input class="form-control" id="AName1" name="AName" type="text" />
+                                <span id="nameval" class="field-validation-error"></span>
                             </div>
+
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input class="form-control" id="ALat1" name="ALat" type="text" />
+                                <span id="latval" class="field-validation-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Address</label>
+                                <input class="form-control" id="ALong1" name="ALong" type="text" />
+                                <span id="longval" class="field-validation-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>ProfilePic</label>
+                                <input class="form-control" id="image" type="file" name="ImageFile" onchange="encodeImagetoBase64(this)" required />
+                                <span id="longval" class="field-validation-error"></span>
+                            </div>
+                            <div>
+                                <p  style="display:none" id="pImageBase64"></p>
+                            </div>
+                            <div>
+                                <img id="image" height="150">
+                            </div>
+                            <input type="hidden" id="action" name="action" />
                         </div>
                     </div>
-                </form>
+                </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary" onclick="return InsertUser();">Submit</button>
@@ -125,14 +113,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add/Edit User Details</h4>
+                    <h4 class="modal-title">Edit User Details</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Id</label>
-                                <input class="form-control" id="gid" name="gid" type="text" />
+                                @*<label>Id</label>*@
+                                <input class="form-control"  type="hidden" id="gid" name="gid" type="text" />
                                 <span id="idval" class="field-validation-error"></span>
                             </div>
                             <div class="form-group">
@@ -148,9 +136,7 @@
                             </div>
 
                             <div class="form-group" id="CarL">
-                                @*<label>CarLicense</label>
-                                <input class="form-control" id="ACar" name="ACar" type="text" />
-                                <span id="longval" class="field-validation-error"></span>*@
+
                             </div>
                             <input type="hidden" id="action" name="action" />
                         </div>
@@ -158,7 +144,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary"  onclick="return EditUsers();">Submit</button>
+                    <button type="submit" id="close" class="btn btn-primary" onclick="return EditUsers();">Submit</button>
                 </div>
             </div>
         </div>
@@ -167,9 +153,65 @@
 </body>
 </html>
 
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
 
-<script src="~/Scripts/jquery-3.4.1.min.js"></script>
-<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
+@*<script src="~/Scripts/bootstrap.js"></script>*@
 <script src="~/Scripts/UsersScripts/Adduser.js"></script>
 <script src="~/Scripts/UsersScripts/Edit.js"></script>
+
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "ajax": {
+                "url": "/Index/getdata",
+                "type": "GET",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "UserId" },
+                { "data": "FullName" },
+                { "data": "UserEmail" },
+                { "data": "Address" },
+                { "data": "CarLicense" },
+                {
+                    mRender: function (data, type, row) {
+
+                        return '<a href="javascript:;" data-toggle="modal" data-target="#editUser" value="Edit User" class="edit-cancel text-uppercase" onclick="return EditUser(' + row.UserId + ')">Edit</a>'
+                    }
+                },
+                {
+                    mRender: function (data, type, row) {
+
+                        return '<a href="javascript:;"   onclick="return Delete(' + row.UserId + ')">Delete</a>'
+                    }
+                }
+
+
+
+            ]
+        });
+    });
+
+</script>
+
+
+
+@*<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/UsersScripts/Adduser.js"></script>
+    <script src="~/Scripts/UsersScripts/Edit.js"></script>*@
+
+
+
+
+
+
 

@@ -15,7 +15,8 @@ namespace TrainingSample.Repository
     {
         public IEnumerable<UserDetails> GetUserDetails()
         {
-            //UserDetails udetailsData = new UserDetails();
+
+            UserDetails udetailsData = new UserDetails();
             using (var dbContext = new TraineeEntities())
             {
 
@@ -48,6 +49,7 @@ namespace TrainingSample.Repository
                 result = result.Where(x => x.CarLicense != "").ToList();
 
                 return result;
+
 
             }
         }
@@ -123,23 +125,24 @@ namespace TrainingSample.Repository
         }
 
 
-        public void DeleteUserDetails(int id)
+
+
+        public void DeleteUserDetails(int? id)
         {
             using (var dbContext = new TraineeEntities())
             {
-                var user = dbContext.UserDetails.Where(u => u.UserId == id).FirstOrDefault();
-                var car = dbContext.CarDetails.Where(c => c.UserId == id).ToList();
-
+                var user = dbContext.UserDetails.Where(x => x.UserId == id).FirstOrDefault();
+                var car = dbContext.CarDetails.Where(x => x.UserId == id).ToList();
                 user.IsActive = false;
                 dbContext.Entry(user).State = EntityState.Modified;
-                // CarDetail car = db.CarDetails.Find(id);
                 if (car.Count() > 0)
                 {
                     dbContext.CarDetails.RemoveRange(car);
                 }
-
                 dbContext.SaveChanges();
             }
+
+
         }
 
         public ResultViewModel GetEditDetails(int Id)
